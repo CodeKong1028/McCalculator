@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQ14 生产计算器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-hammer"></i>
+                <span>QQ14 生产计算器</span>
+            </div>
+            <div class="header-right">
+                <!-- 主题切换按钮 -->
+                <button class="theme-toggle" id="themeToggle" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <!-- 作者信息 -->
+                <div class="author-info">
+                    <!-- 麦当劳🌸黄金谷-->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 计算器页面 -->
+        <div class="tab-content active" id="calculator">
+            <div class="calculator-container">
+            <!-- 左侧：职业选择侧边栏 -->
+            <aside class="job-sidebar">
+                <button class="job-tab" data-job="quickcalc">
+                    <img src="assets/icons/jobs/32px-职业图标_能工巧匠.webp" alt="快捷计算" class="job-icon">
+                    快捷计算
+                </button>
+                <button class="job-tab" data-job="carpenter">
+                    <img src="assets/icons/jobs/60px-职业图标_刻木匠.webp" alt="刻木匠" class="job-icon">
+                    刻木匠
+                </button>
+                <button class="job-tab" data-job="blacksmith">
+                    <img src="assets/icons/jobs/60px-职业图标_锻铁匠.webp" alt="锻铁匠" class="job-icon">
+                    锻铁匠
+                </button>
+                <button class="job-tab" data-job="armorer">
+                    <img src="assets/icons/jobs/60px-职业图标_铸甲匠.webp" alt="铸甲匠" class="job-icon">
+                    铸甲匠
+                </button>
+                <button class="job-tab" data-job="goldsmith">
+                    <img src="assets/icons/jobs/60px-职业图标_雕金匠.webp" alt="雕金匠" class="job-icon">
+                    雕金匠
+                </button>
+                <button class="job-tab" data-job="leatherworker">
+                    <img src="assets/icons/jobs/60px-职业图标_制革匠.webp" alt="制革匠" class="job-icon">
+                    制革匠
+                </button>
+                <button class="job-tab" data-job="weaver">
+                    <img src="assets/icons/jobs/60px-职业图标_裁衣匠.webp" alt="裁衣匠" class="job-icon">
+                    裁衣匠
+                </button>
+                <button class="job-tab" data-job="alchemist">
+                    <img src="assets/icons/jobs/60px-职业图标_炼金术士.webp" alt="炼金术士" class="job-icon">
+                    炼金术士
+                </button>
+                <button class="job-tab" data-job="culinarian">
+                    <img src="assets/icons/jobs/60px-职业图标_烹调师.webp" alt="烹调师" class="job-icon">
+                    烹调师
+                </button>
+            </aside>
+            <!-- 中间：物品选择区域 -->
+            <div class="item-selection">
+                <div class="section-header">
+                    <div class="search-actions">
+                        <button class="btn btn-fav-toggle" id="favToggleBtn" title="只看收藏"><i class="fas fa-star"></i></button>
+                        <div class="search-box">
+                            <input type="text" id="itemSearch" placeholder="搜索物品名称...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="items-grid" id="itemsGrid">
+                    <!-- 物品将通过JavaScript动态加载 -->
+                </div>
+            </div>
+            <!-- 右侧：计算结果区域 -->
+            <div class="calculation-results">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> 计算结果</h2>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button class="btn btn-primary" id="clearSelectedBtn" title="清空已选物品">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-primary" id="calculateBtn">
+                            <i class="fas fa-calculator"></i> 计算素材
+                        </button>
+                    </div>
+                </div>
+                <div class="selected-items">
+                    <h3>已选物品</h3>
+                    <div class="selected-items-list" id="selectedItemsList">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>请选择要制造的物品</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="materials-needed">
+                    <h3>半成品</h3>
+                    <div class="materials-list" id="materialsList">
+                        <div class="empty-state">
+                            <i class="fas fa-boxes"></i>
+                            <p>点击计算按钮查看所需素材</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="base-materials-needed">
+                    <h3>基础材料</h3>
+                    <div class="base-materials-list" id="baseMaterialsList">
+                        <div class="empty-state">
+                            <i class="fas fa-boxes"></i>
+                            <p>点击计算按钮查看基础材料</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- 收藏页面 -->
+        <div class="tab-content" id="favorites">
+            <div class="favorites-container">
+                <h2><i class="fas fa-heart"></i> 收藏的物品</h2>
+                <div class="favorites-list" id="favoritesList">
+                    <div class="empty-state">
+                        <i class="fas fa-heart-broken"></i>
+                        <p>暂无收藏的物品</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置页面 -->
+        <div class="tab-content" id="settings">
+            <div class="settings-container">
+                <h2><i class="fas fa-cog"></i> 设置</h2>
+                
+                <div class="setting-group">
+                    <h3>应用信息</h3>
+                    <div class="setting-item">
+                        <label>版本</label>
+                        <span>v1.0.0</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>最后更新</label>
+                        <span>2024年12月</span>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3>用户反馈</h3>
+                    <div class="setting-item">
+                        <label>反馈邮箱</label>
+                        <a href="mailto:McCalculator@qq.com">McCalculator@qq.com</a>
+                    </div>
+                    <div class="setting-item">
+                        <label>使用帮助</label>
+                        <button class="btn btn-secondary" id="helpBtn">查看帮助</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3>数据管理</h3>
+                    <div class="setting-item">
+                        <label>库存管理</label>
+                        <button class="btn btn-secondary" id="inventoryBtn">管理库存</button>
+                    </div>
+                    <div class="setting-item">
+                        <label>导出数据</label>
+                        <button class="btn btn-secondary" id="exportBtn">导出清单</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 版权信息 -->
+    <footer class="footer">
+        <div class="footer-divider"></div>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 QQ14 生产计算器 | 麦当劳🌸黄金谷</p>
+                <p>基于 最终幻想14水晶世界 制作系统数据 | 仅供学习交流使用</p>
+            </div>
+            <div class="footer-links">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 素材详情弹窗 -->
+    <div class="modal" id="materialModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">素材详情</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- 弹窗内容将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 库存管理弹窗 -->
+    <div class="modal" id="inventoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>库存管理</h3>
+                <button class="modal-close" id="inventoryModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="inventory-input">
+                    <input type="text" id="inventorySearch" placeholder="搜索素材...">
+                    <div class="inventory-list" id="inventoryList">
+                        <!-- 库存列表将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="f93oxhjnv3vp.js"></script>
+    <script src="bj63h7w50g0w.js"></script>
+</body>
+</html> 

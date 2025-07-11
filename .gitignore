@@ -1,0 +1,25 @@
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 开发目录和发布目录（不上传到仓库）
+developments/
+pr/
+release/
+
+# IDE 文件
+.cursor/
+.vscode/
+.idea/
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp 
