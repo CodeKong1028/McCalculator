@@ -1597,6 +1597,11 @@ input[type=number] {
     box-shadow: 0 2px 8px var(--ff14-glow);
 }
 
+/* 只看收藏模式下的配方卡片间距 */
+#itemsGrid.fav-only .item-card {
+  margin-bottom: 0px; /* 你可以根据需要调整为任意数值 */
+}
+
 /* 版权区域样式 */
 .footer {
     margin-top: 40px;
