@@ -1426,7 +1426,38 @@ input[type=number] {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
+  flex: 1;
+}
+
+/* 批量选择按钮样式 */
+.category-select-all-btn {
+  background: transparent;
+  border: none;
+  color: var(--ff14-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto; /* 右对齐 */
+}
+
+.category-select-all-btn:hover {
+  background: var(--ff14-secondary);
+  color: var(--ff14-bg-dark);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px var(--ff14-glow);
+}
+
+.category-select-all-btn:active {
+  transform: scale(0.95);
+}
+
+.category-select-all-btn i {
+  font-size: 16px;
 }
 
 #clearSelectedBtn {
@@ -1553,6 +1584,17 @@ input[type=number] {
 [data-theme="light"] .calculation-results .material-quantity,
 [data-theme="light"] .calculation-results .base-materials-needed .material-quantity {
     color: var(--ff14-secondary);
+}
+
+/* 白天模式下的批量选择按钮样式 */
+[data-theme="light"] .category-select-all-btn {
+    color: var(--ff14-secondary);
+}
+
+[data-theme="light"] .category-select-all-btn:hover {
+    background: var(--ff14-secondary);
+    color: var(--ff14-bg-dark);
+    box-shadow: 0 2px 8px var(--ff14-glow);
 }
 
 /* 版权区域样式 */
