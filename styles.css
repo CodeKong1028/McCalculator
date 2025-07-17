@@ -1372,6 +1372,8 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 input[type=number] {
+  appearance: textfield;
+  -webkit-appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -1384,6 +1386,16 @@ input[type=number] {
 }
 #favToggleBtn {
   transition: all 0.2s;
+}
+
+/* 确保收藏按钮有和闹钟按钮一样的hover动效 */
+#favToggleBtn:hover {
+  transform: translateY(-2px) rotate(5deg);
+  box-shadow: 0 6px 20px var(--ff14-glow);
+}
+
+#favToggleBtn:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 /* 分类容器间距控制 */
@@ -1602,6 +1614,73 @@ input[type=number] {
   margin-bottom: 0px; /* 你可以根据需要调整为任意数值 */
 }
 
+/* 本地时间显示样式 - 精简版 */
+.local-time-box {
+  display: inline-flex; /* 让边框紧贴内容 */
+  align-items: center;
+  background: none;
+  box-shadow: none;
+  border-radius: 8px;
+  padding: 2px 14px;
+  margin-right: 10px;
+  font-size: 20px;
+  height: 36px;
+  min-width: 0;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #bfa14a;
+  /* 主题色会覆盖此色 */
+}
+.local-time-label {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  background: none;
+  border-radius: 0;
+  padding: 0 4px 0 0;
+  margin-right: 0;
+  box-shadow: none;
+}
+.local-time-value {
+  font-size: 16px;
+  font-family: 'Noto Sans SC', 'Arial', sans-serif;
+  font-weight: 700;
+  margin-left: 2px;
+  letter-spacing: 1px;
+}
+
+/* 白天模式下时钟区域边框和文字颜色 */
+body[data-theme="light"] .local-time-box {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #bfa14a !important;
+  background: none !important;
+}
+body[data-theme="light"] .local-time-label {
+  color: #a67c1a !important;
+}
+body[data-theme="light"] .local-time-value {
+  color: #6b4a13 !important;
+}
+
+/* 夜晚模式下时钟区域边框和文字颜色 */
+body[data-theme="dark"] .local-time-box {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #ffd700 !important;
+  background: none !important;
+}
+body[data-theme="dark"] .local-time-label {
+  color: #ffd700 !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 2px rgba(255, 215, 0, 0.3);
+}
+body[data-theme="dark"] .local-time-value {
+  color: #fffbe0 !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 4px #ffd700, 0 0 2px #fffbe0;
+} 
+
 /* 版权区域样式 */
 .footer {
     margin-top: 40px;
@@ -1691,3 +1770,406 @@ input[type=number] {
         display: none; /* 隐藏分隔符 */
     }
 } 
+
+/* 让闹钟按钮和收藏按钮样式完全一致 */
+.btn-alarm-toggle {
+  /* 直接继承收藏按钮样式 */
+  @extend .btn-fav-toggle;
+}
+/* 兼容不支持@extend的环境，直接复制样式 */
+.btn-alarm-toggle {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 44px;
+  max-height: 44px;
+  padding: 0;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 22px;
+  margin-right: 18px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-alarm-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.btn-alarm-toggle:hover::before {
+  width: 100px;
+  height: 100px;
+}
+.btn-alarm-toggle:hover {
+  transform: translateY(-2px) rotate(5deg);
+  box-shadow: 0 6px 20px var(--ff14-glow);
+}
+.btn-alarm-toggle:active {
+  transform: translateY(0px) scale(0.95);
+}
+
+/* 闹钟列表样式 - 参考计算结果容器样式 */
+.alarm-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.alarm-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.alarm-category {
+  margin-bottom: 16px;
+}
+
+.alarm-category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ff14-secondary);
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, var(--ff14-primary) 0%, transparent 100%);
+  border-left: 3px solid var(--ff14-secondary);
+  border-radius: 0 4px 4px 0;
+}
+
+.alarm-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin: 4px 0 8px 0;
+  background: linear-gradient(135deg, var(--ff14-primary) 0%, var(--ff14-bg-light) 100%);
+  border: 1px solid var(--ff14-border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--ff14-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.alarm-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--ff14-secondary) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.alarm-item:hover::before {
+  opacity: 0.1;
+}
+
+.alarm-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--ff14-glow);
+  border-color: var(--ff14-secondary);
+}
+
+.alarm-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.alarm-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--ff14-bg-light) 0%, var(--ff14-primary) 100%);
+  border: 1px solid var(--ff14-border);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px var(--ff14-shadow);
+  overflow: hidden;
+}
+
+.alarm-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.alarm-item-details h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ff14-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.alarm-item-details .item-level-inline {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ff14-text-secondary);
+  margin-left: 8px;
+}
+
+.alarm-remove-btn {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.alarm-remove-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alarm-remove-btn:hover::before {
+  opacity: 1;
+}
+
+.alarm-remove-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+}
+
+.alarm-remove-btn:active {
+  transform: scale(0.95);
+}
+
+/* 白天模式下的闹钟列表样式 */
+[data-theme="light"] .alarm-item {
+  background: linear-gradient(135deg, var(--ff14-bg-light) 0%, var(--ff14-primary) 100%);
+  box-shadow: 0 2px 8px var(--ff14-shadow);
+}
+
+[data-theme="light"] .alarm-item:hover {
+  box-shadow: 0 4px 16px var(--ff14-glow);
+}
+
+[data-theme="light"] .alarm-item-icon {
+  background: linear-gradient(135deg, var(--ff14-primary) 0%, var(--ff14-bg-light) 100%);
+}
+
+[data-theme="light"] .alarm-category-title {
+  background: linear-gradient(90deg, var(--ff14-bg-light) 0%, transparent 100%);
+}
+
+/* 倒计时样式 */
+.alarm-countdown {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ff14-text-secondary);
+  background: linear-gradient(135deg, var(--ff14-bg-light) 0%, var(--ff14-primary) 100%);
+  border: 1px solid var(--ff14-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 8px;
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px var(--ff14-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alarm-countdown:hover {
+  border-color: var(--ff14-secondary);
+  box-shadow: 0 2px 6px var(--ff14-glow);
+}
+
+/* 白天模式下的倒计时样式 */
+[data-theme="light"] .alarm-countdown {
+  background: linear-gradient(135deg, var(--ff14-primary) 0%, var(--ff14-bg-light) 100%);
+  color: var(--ff14-text-secondary);
+}
+
+/* 动态绿色遮罩样式 */
+.alarm-countdown {
+  position: relative;
+  overflow: hidden;
+}
+
+.alarm-countdown.active-item {
+  border-color: #28a745;
+}
+
+.countdown-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(40, 167, 69, 0.3) 0%, rgba(40, 167, 69, 0.1) 100%);
+  width: var(--progress, 0%);
+  transition: width 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.countdown-text {
+  position: relative;
+  z-index: 2;
+  color: inherit;
+}
+
+/* 进度条动画效果 - 已删除呼吸效果 */
+
+/* 白天模式下的绿色遮罩 */
+[data-theme="light"] .alarm-countdown.active-item {
+  border-color: #2ea043;
+}
+
+[data-theme="light"] .countdown-progress {
+  background: linear-gradient(90deg, rgba(46, 160, 67, 0.4) 0%, rgba(46, 160, 67, 0.2) 100%);
+}
+
+/* 物品图标状态样式 */
+.alarm-item-icon.active {
+  position: relative;
+  background: #28a745;
+  border-radius: 6px;
+}
+
+/* 紧急物品图标动效（剩余时间小于3分钟） */
+.alarm-item-icon.urgent {
+  animation: urgentPulse 2s ease-in-out infinite;
+}
+
+.alarm-item-icon.urgent::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 60%);
+  border-radius: 9px;
+  z-index: -2;
+  animation: urgentRipple 4s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes urgentRipple {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+/* 白天模式下的图标状态 */
+[data-theme="light"] .alarm-item-icon.active {
+  background: #2ea043;
+}
+
+[data-theme="light"] .alarm-item-icon.urgent::after {
+  background: radial-gradient(circle, rgba(220, 53, 69, 0.4) 0%, transparent 70%);
+}
+
+/* 通知权限提示样式 */
+.notification-permission-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.notification-permission-notice.granted {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-color: #28a745;
+}
+
+.notification-permission-notice i {
+  font-size: 14px;
+}
+
+/* 通知权限提示关闭按钮 */
+.notification-dismiss-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification-dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: scale(1.1);
+}
+
+.notification-dismiss-btn:active {
+  transform: scale(0.95);
+}
+
+/* 白天模式下的通知权限提示 */
+[data-theme="light"] .notification-permission-notice {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+}
+
+[data-theme="light"] .notification-permission-notice.granted {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}

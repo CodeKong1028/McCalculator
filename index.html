@@ -17,6 +17,16 @@
                 <span>QQ14 生产计算器</span>
             </div>
             <div class="header-right">
+                <!-- 艾欧泽亚时钟显示 -->
+                <div id="eorzeaTimeBox" class="local-time-box">
+                    <span class="local-time-label">艾</span>
+                    <span class="local-time-value" id="eorzeaTimeValue">00:00</span>
+                </div>
+                <!-- 本地时间显示 -->
+                <div id="localTimeBox" class="local-time-box">
+                    <span class="local-time-label">本</span>
+                    <span class="local-time-value" id="localTimeValue">00:00</span>
+                </div>
                 <!-- 主题切换按钮 -->
                 <button class="theme-toggle" id="themeToggle" title="切换主题">
                     <i class="fas fa-moon"></i>
@@ -78,6 +88,7 @@
                 <div class="section-header">
                     <div class="search-actions">
                         <button class="btn btn-fav-toggle" id="favToggleBtn" title="只看收藏"><i class="fas fa-star"></i></button>
+                        <button class="btn btn-alarm-toggle" id="alarmToggleBtn" title="只看闹钟" style="display: none;"><i class="fas fa-clock"></i></button>
                         <div class="search-box">
                             <input type="text" id="itemSearch" placeholder="搜索物品名称...">
                             <i class="fas fa-search"></i>
@@ -97,34 +108,51 @@
                             <i class="fas fa-trash"></i>
                         </button>
                         <button class="btn btn-primary" id="calculateBtn">
-                            <i class="fas fa-calculator"></i> 计算素材
+                            <i class="fas fa-calculator"></i> <span class="calculate-btn-text">计算素材</span>
                         </button>
                     </div>
                 </div>
-                <div class="selected-items">
-                    <h3>已选物品</h3>
-                    <div class="selected-items-list" id="selectedItemsList">
-                        <div class="empty-state">
-                            <i class="fas fa-inbox"></i>
-                            <p>请选择要制造的物品</p>
+                
+                <!-- 生产职业内容 -->
+                <div class="production-content">
+                    <div class="selected-items">
+                        <h3>已选物品</h3>
+                        <div class="selected-items-list" id="selectedItemsList">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>请选择要制造的物品</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="materials-needed">
+                        <h3>半成品</h3>
+                        <div class="materials-list" id="materialsList">
+                            <div class="empty-state">
+                                <i class="fas fa-boxes"></i>
+                                <p>点击计算按钮查看所需素材</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="base-materials-needed">
+                        <h3>基础材料</h3>
+                        <div class="base-materials-list" id="baseMaterialsList">
+                            <div class="empty-state">
+                                <i class="fas fa-boxes"></i>
+                                <p>点击计算按钮查看基础材料</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="materials-needed">
-                    <h3>半成品</h3>
-                    <div class="materials-list" id="materialsList">
-                        <div class="empty-state">
-                            <i class="fas fa-boxes"></i>
-                            <p>点击计算按钮查看所需素材</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="base-materials-needed">
-                    <h3>基础材料</h3>
-                    <div class="base-materials-list" id="baseMaterialsList">
-                        <div class="empty-state">
-                            <i class="fas fa-boxes"></i>
-                            <p>点击计算按钮查看基础材料</p>
+                
+                <!-- 采集职业闹钟内容 -->
+                <div class="alarm-content" style="display: none;">
+                    <div class="alarm-list">
+                        <!-- <h3>闹钟列表</h3>  // 采集职业下方标签已隐藏或删除 -->
+                        <div class="alarm-items-list" id="alarmItemsList">
+                            <div class="empty-state">
+                                <i class="fas fa-clock"></i>
+                                <p>请添加闹钟提醒的物品</p>
+                            </div>
                         </div>
                     </div>
                 </div>
